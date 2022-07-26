@@ -22,7 +22,7 @@ I_Simpson = h * I_Simpson
 """
 
 import numpy as np
-def simpson_rule(a,b,n,f):
+def simpson(a,b,n,f):
     h=(b-a)/n
     I_simpson = f(a)/6 + f(b)/6 
 
@@ -31,7 +31,7 @@ def simpson_rule(a,b,n,f):
     
     for i in range(1,n+1):
         I_simpson = I_simpson + 2*f(a+(i-1/2)*h)/3
-        
+
     return h*I_simpson
 
 
@@ -41,14 +41,14 @@ y = lambda x: np.e**(-x**2)
 a = 0
 b = 2
 n = 4
-print(simpson_rule(a,b,n,y))
+print(simpson(a,b,n,y))
 print()
 
 y = lambda x: (x+1)**(-2)
 a = 1
 b = 3
 n = 8
-print(simpson_rule(a,b,n,y))
+print(simpson(a,b,n,y))
 
 
 

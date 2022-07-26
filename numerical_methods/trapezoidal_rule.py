@@ -19,7 +19,7 @@ I_trap = h * I_trap
 """
 
 import numpy as np
-def trapezoidal_rule(a,b,n,f):
+def trapezoidal(a,b,n,f):
     h=(b-a)/n
     I_trap = f(a)/2 + f(b)/2 
 
@@ -34,14 +34,14 @@ y = lambda x: np.e**(-x**2)
 a = 0
 b = 2
 n = 4
-print(trapezoidal_rule(a,b,n,y))
+print(trapezoidal(a,b,n,y))
 print()
 
 y = lambda x: (x+1)**(-2)
 a = 1
 b = 3
 n = 8
-print(trapezoidal_rule(a,b,n,y))
+print(trapezoidal(a,b,n,y))
 
 
 

@@ -19,7 +19,7 @@ I_midpoint = h * I_midpoint
 """
 
 import numpy as np
-def midpoint_rule(a,b,n,f):
+def midpoint(a,b,n,f):
 
     h = (b-a) / n
     I_midpoint = 0
@@ -37,14 +37,14 @@ y = lambda x: np.e**(-x**2)
 a = 0
 b = 2
 n = 4
-print(midpoint_rule(a,b,n,y))
+print(midpoint(a,b,n,y))
 print()
 
 y = lambda x: (x+1)**(-2)
 a = 1
 b = 3
 n = 8
-print(midpoint_rule(a,b,n,y))
+print(midpoint(a,b,n,y))
 
 
 
