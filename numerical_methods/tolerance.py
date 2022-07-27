@@ -21,17 +21,19 @@ I_approx = I_new
 
 import numpy as np
 
-from midpoint_rule import midpoint
-from simpson_rule import simpson
-from trapezoidal_rule import trapezoidal
+from midpoint_rule import *
+from simpson_rule import *
+from trapezoidal_rule import *
 
-def tolerance(tol,a,b,n,f,choice):
+def tolerance(tol,a,b,f,choice):
 
     n = 4
     I_old = choice(a,b,n,f)
-
+ 
     n = 2*n
     I_new = choice(a,b,n,f)
+    
+    
 
     while (abs(I_new - I_old) > tol):
         I_old = I_new
@@ -42,14 +44,14 @@ def tolerance(tol,a,b,n,f,choice):
 
 
 # testcase
-"""
+
 print()
-tol = 10 ** (-6)
+tol = 0.5 * 10 ** (-7)
 y = lambda x: np.e**(-x**2)
 a = 0
 b = 2
-n = 4
-print(tolerance(tol,a,b,n,y,trapezoidal))
+n = 512
+print(tolerance(tol,a,b,y,simpson))
 print()
 
 
@@ -57,7 +59,8 @@ y = lambda x: (x+1)**(-2)
 a = 1
 b = 3
 n = 8
-print(trapezoidal(a,b,n,y))
-"""
+
+
+
 
 

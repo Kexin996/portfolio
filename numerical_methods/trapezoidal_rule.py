@@ -29,6 +29,7 @@ def trapezoidal(a,b,n,f):
 
 
 # testcase
+'''
 print()
 y = lambda x: np.e**(-x**2)
 a = 0
@@ -42,6 +43,6 @@ a = 1
 b = 3
 n = 8
 print(trapezoidal(a,b,n,y))
-
+'''
 
 
