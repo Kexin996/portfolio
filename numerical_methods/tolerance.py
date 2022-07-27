@@ -44,7 +44,7 @@ def tolerance(tol,a,b,f,choice):
 
 
 # testcase
-
+'''
 print()
 tol = 0.5 * 10 ** (-7)
 y = lambda x: np.e**(-x**2)
@@ -59,6 +59,7 @@ y = lambda x: (x+1)**(-2)
 a = 1
 b = 3
 n = 8
+'''
 
 
 
