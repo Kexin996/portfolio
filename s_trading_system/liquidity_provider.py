@@ -18,9 +18,11 @@ class LiquidityProvider:
     
     # lookup_order(self,id): check whether the order exists in our current orders
     def lookup_order(self,id):
+        count = 0
         for o in self.orders:
             if o['id'] == id:
-                return o,id # if we have found the order, we return it and its id
+                return o,count # if we have found the order, we return it and its id
+            count += 1
             
         return None,None
     
@@ -38,7 +40,7 @@ class LiquidityProvider:
     # there are three modes: new / modify / delete
     def generate_random_order(self):
         price = randrange(8,12) # randomly produces a price in [8,12)
-        side = sample(['buy','sell'],1)[0] # this method returns a list of length 1, either buy or sell
+        side = sample(['ask','bid'],1)[0] # this method returns a list of length 1, either buy or sell
         quantity = randrange(1,10)*100 # a quantity in [100,900]
         order_id = randrange(0,self.order_id+1) # randomly produces a valid id
         o,_ = self.lookup_order(order_id)
@@ -68,6 +70,7 @@ class LiquidityProvider:
         # we use it for unit testing case
         if not self.lp_2_gateway:
             print('SIMULATION MODE') # unit testing purpose
+            self.orders.append(ord)
             return ord
         
         self.lp_2_gateway.append(ord.copy()) # we update our gateway since we have new actions

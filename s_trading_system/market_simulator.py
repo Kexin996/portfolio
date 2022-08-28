@@ -19,7 +19,7 @@ class MarketSimulator:
         return None,None
     
     # define a function to handle order from order manager
-    def handle_order_from_om(self,order):
+    def handle_order_from_om(self):
         if self.om_2_gw is None: # unit testing
             print('simulation mode')
         else:
@@ -32,7 +32,7 @@ class MarketSimulator:
         # if not, we will act under the action of the order
         if o is None:
             # check whether the order we received is new or not
-            if order['action'] == 'New': # new order, we accept it
+            if order['action'] == 'new': # new order, we accept it
                 order['status'] = 'accepted'
                 self.orders.append(order)
                 # we attach a copy the gateway
@@ -41,7 +41,7 @@ class MarketSimulator:
                 else:
                     print('simulation mode')
                     return
-            elif order['action'] == 'Cancel' or order['action'] == 'Amend': # questionable orders
+            elif order['action'] == 'delete' or order['action'] == 'modify': # questionable orders
                 print('Order id - not found - Rejection')
                 # we will not keep questionable orders in our current order list
                 # we append a copy to gateway for order manager to deal with it
@@ -52,10 +52,10 @@ class MarketSimulator:
                     print('simulation mode')
                     return
         else: # if the order exists
-            if order['action'] == 'New': # duplication order!
+            if order['action'] == 'new': # duplication order!
                 print('The order has already existed - duplication!')
                 return
-            elif order['action'] == 'Cancel': # we need to cancel existing orders
+            elif order['action'] == 'delete': # we need to cancel existing orders
                 o['status'] = 'cancelled'
                 # we put it on the gatewat
                 if self.gw_2_om is not None:
@@ -67,7 +67,7 @@ class MarketSimulator:
                 # we delete the order from our current order list, because we have cancelled it
                 del(self.orders[offset])
                 print('Order Cancelled')
-            elif order['action'] =='Amend': # we just need to amend some properties of current order
+            elif order['action'] =='modify': # we just need to amend some properties of current order
                 o['status'] = 'accepted'
                 # we put it on the gateway to order manager
                 if self.gw_2_om is not None:
@@ -91,7 +91,9 @@ class MarketSimulator:
                 print('simulation mode') # unit testing
         
         # we remove the orders
-        for index in sorted(orders_removed):
+        for index in sorted(orders_removed,reverse = True): 
+            # we need to use reverse order, since
+            # we don't want deletion in the beginning to influence other orders'index
             del(self.orders[index])
             
             

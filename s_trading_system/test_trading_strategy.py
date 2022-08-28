@@ -22,8 +22,8 @@ class TestStrategy(unittest.TestCase):
         # we begin our testing...
         self.trading_strategy.handle_book_event(book_event)
         self.assertEqual(len(self.trading_strategy.orders),2)
-        self.assertEqual(self.trading_strategy.orders[0]['side'],'sell') # we insert sell order first
-        self.assertEqual(self.trading_strategy.orders[1]['side'],'buy')
+        self.assertEqual(self.trading_strategy.orders[0]['side'],'bid') # we insert sell order first
+        self.assertEqual(self.trading_strategy.orders[1]['side'],'ask')
         self.assertEqual(self.trading_strategy.orders[0]['price'],12)
         self.assertEqual(self.trading_strategy.orders[1]['price'],10)
         self.assertEqual(self.trading_strategy.current_bid, 12)
@@ -40,11 +40,11 @@ class TestStrategy(unittest.TestCase):
             'id':1,
             'price':12,
             'quantity':100,
-            'side':'sell',
+            'side':'ask',
             'status':'rejected'}
         
         self.trading_strategy.handle_market_response(order_execution)
-        self.assertEqual(self.trading_strategy.orders[0]['side'],'buy') # we deque the first sell order
+        self.assertEqual(self.trading_strategy.orders[0]['side'],'ask') # we deque the first sell order
         self.assertEqual(self.trading_strategy.orders[0]['price'],10)
         self.assertEqual(self.trading_strategy.orders[0]['quantity'], 100) 
         self.assertEqual(self.trading_strategy.orders[0]['status'], 'new')
@@ -57,7 +57,7 @@ class TestStrategy(unittest.TestCase):
             'id':1,
             'price':12,
             'quantity':100,
-            'side':'sell',
+            'side':'bid',
             'status':'filled'}
         self.trading_strategy.handle_market_response(order_execution)
         self.assertEqual(len(self.trading_strategy.orders),1)
@@ -67,7 +67,7 @@ class TestStrategy(unittest.TestCase):
             'id':2,
             'price':10,
             'quantity':100,
-            'side':'buy',
+            'side':'ask',
             'status':'filled'}
         self.trading_strategy.handle_market_response(order_execution)
         self.assertEqual(self.trading_strategy.position, 0)

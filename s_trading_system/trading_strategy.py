@@ -52,7 +52,8 @@ class TradingStrategy:
             # check whether there is a chance for us to do arbitrage
             # we sell at the price other people are willing to buy
             # and buy at the price other people are willing to sell
-            if book_event['bid_price'] > book_event['ask_price']:
+            if book_event['bid_price'] > book_event['ask_price'] and book_event['bid_price'] > 0 and book_event['ask_price'] > 0:
+                # make sure the bid/ask prices are valid
                 return True # we produce the signal
             else:
                 return False # no signal
@@ -68,7 +69,7 @@ class TradingStrategy:
             'id': self.order_id,
             'price': self.current_bid,
             'quantity':quantity,
-            'side': 'sell',
+            'side': 'bid',
             'action': 'to_be_sent'
             }
         
@@ -81,7 +82,7 @@ class TradingStrategy:
             'id': self.order_id,
             'price': self.current_ask,
             'quantity':quantity,
-            'side': 'buy',
+            'side': 'ask',
             'action': 'to_be_sent'
             }
         
@@ -98,11 +99,11 @@ class TradingStrategy:
                 order['status'] = 'new'
                 order['action'] = 'no_action'
             
-            if self.ts_2_om is None:
-                # unit test mode
-                print('simulation mode')
-            else:
-                self.ts_2_om.append(order.copy()) # we send the order
+                if self.ts_2_om is None:
+                    # unit test mode
+                    print('simulation mode')
+                else:
+                    self.ts_2_om.append(order.copy()) # we send the order
             
             # if the order doesn't need to be sent
             # that is, it is an order we receive from market
@@ -113,7 +114,7 @@ class TradingStrategy:
             if order['status'] == 'filled':
                 orders_to_be_removed.append(index)
                 # we update positions, and cash onls
-                pos = order['quantity'] if order['side'] == 'buy' else -order['quantity']
+                pos = order['quantity'] if order['side'] == 'ask' else -order['quantity']
                 self.position += pos
                 # for long position, we decrease pnls and cash
                 # for short position, we increase pnls and cash
@@ -121,7 +122,9 @@ class TradingStrategy:
                 self.cash -= pos * order['price']
             
         # and we remove the orders_to_be_removed
-        for index in sorted(orders_to_be_removed):
+        for index in sorted(orders_to_be_removed,reverse = True):
+            # we need to use reverse order, since
+            # we don't want deletion in the beginning to influence other orders'index
             del(self.orders[index]) # question: do we need to reverse the sort order?
         
     # we also need to define functions to deal with feedback from market
@@ -154,7 +157,10 @@ class TradingStrategy:
             count += 1
         return None,None
         
-        
+    # we define a function to calculate current total PnLs
+    # both realized & unrealized
+    def get_pnls(self):
+        return self.pnls + self.position * (self.current_bid + self.current_ask)/2     
         
         
     

@@ -18,8 +18,8 @@ class TestMarketSimulator(unittest.TestCase):
             'id':10,
             'price':200,
             'quantity':50,
-            'side':'buy',
-            'action':'New'}
+            'side':'bid',
+            'action':'new'}
         self.market_simulator.handle_order(order1)
         self.assertEqual(len(self.market_simulator.orders),1)
         self.assertEqual(self.market_simulator.orders[0]['status'],'accepted')
@@ -30,7 +30,7 @@ class TestMarketSimulator(unittest.TestCase):
             'id':10,
             'price':200,
             'quantity':50,
-            'side':'buy',
+            'side':'bid',
             'action':'Amend'}
         self.market_simulator.handle_order(order1)
         self.assertEqual(len(self.market_simulator.orders),0)

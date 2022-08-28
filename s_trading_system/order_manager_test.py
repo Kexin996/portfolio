@@ -18,7 +18,7 @@ class TestOrderManager(unittest.TestCase):
             'id':10,
             'price':200,
             'quantity':10,
-            'side':'buy'
+            'side':'bid'
             }
         self.order_manager.handle_order_from_trading_strategy(order1)
         self.assertEqual(len(self.order_manager.orders),1)
@@ -34,7 +34,7 @@ class TestOrderManager(unittest.TestCase):
             'id':10,
             'price':-200,
             'quantity':10,
-            'side':'buy'
+            'side':'bid'
             }
         self.order_manager.handle_order_from_trading_strategy(order1)
         self.assertEqual(len(self.order_manager.orders),0)
@@ -43,7 +43,7 @@ class TestOrderManager(unittest.TestCase):
             'id':10,
             'price':200,
             'quantity':-10,
-            'side':'buy'
+            'side':'bid'
             }
         self.order_manager.handle_order_from_trading_strategy(order2)
         self.assertEqual(len(self.order_manager.orders),0)
@@ -55,7 +55,7 @@ class TestOrderManager(unittest.TestCase):
             'id':2,
             'price':200,
             'quantity':10,
-            'side':'buy',
+            'side':'bid',
             'status':'filled'
             }
         self.order_manager.handle_order_from_gateway(order_filled)
@@ -68,7 +68,7 @@ class TestOrderManager(unittest.TestCase):
             'id':2,
             'price':200,
             'quantity':10,
-            'side':'buy',
+            'side':'bid',
             'status':'acked'
             }
         self.order_manager.handle_order_from_gateway(order_filled)

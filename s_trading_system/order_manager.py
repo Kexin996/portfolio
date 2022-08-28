@@ -37,7 +37,7 @@ class OrderManager:
             if self.om_2_gw is None:
                 print('simulation mode')
             else:
-                self.om_2_gw.append(order.copy(0))
+                self.om_2_gw.append(order.copy())
     
     # define a function to handle order from market
     def handle_input_from_market(self):
@@ -81,8 +81,8 @@ class OrderManager:
             'price':order_received['price'],
             'quantity':order_received['quantity'],
             'side':order_received['side'],
-            'status': 'new',
-            'action':'New'} # the status and action show that the order is newly created
+            'status':'new',
+            'action':'new'} # the status and action show that the order is newly created
         return order
     
     # define a function to look up order in current order management orders
@@ -100,7 +100,9 @@ class OrderManager:
                 order_removed.append(i)
             
         # we remove the traded orders by their index
-        for k in sorted(order_removed):
+        for k in sorted(order_removed,reverse = True):
+            # we need to use reverse order, since
+            # we don't want deletion in the beginning to influence other orders'index
             del(self.orders[k])
         
             
