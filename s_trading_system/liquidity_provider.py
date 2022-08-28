@@ -41,7 +41,7 @@ class LiquidityProvider:
         side = sample(['buy','sell'],1)[0] # this method returns a list of length 1, either buy or sell
         quantity = randrange(1,10)*100 # a quantity in [100,900]
         order_id = randrange(0,self.order_id+1) # randomly produces a valid id
-        o = self.lookup_order(order_id)
+        o,_ = self.lookup_order(order_id)
         
         new_order = False # we use it to check whether we are creating a new order
         # or we modify / delete an existing order
