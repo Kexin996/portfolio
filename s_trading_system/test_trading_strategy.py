@@ -10,7 +10,7 @@ from trading_strategy import TradingStrategy
 class TestStrategy(unittest.TestCase):
     def setUp(self): # we use it for our unit testing
     # this function will be called before we make the first test
-        self.trading_strategy = TradingStrategy([],[],[])
+        self.trading_strategy = TradingStrategy()
     
     # we create an arbitrary book event to test the reception of book event trading strategy
     def test_receive_book_event(self):

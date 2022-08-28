@@ -9,7 +9,7 @@ Idea: when the top of the order book is crossed, we execute an order
 """
 
 class TradingStrategy:
-    def __init__(self,ob_2_ts,ts_2_om,om_2_ts):
+    def __init__(self,ob_2_ts = None,ts_2_om = None,om_2_ts = None):
         # we initialize the strategy class
         self.orders = []
         self.order_id = 0
