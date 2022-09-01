@@ -5,7 +5,8 @@ Implementation of initiator application class
 """
 
 import quickfix as fix 
-
+import logging 
+from base import Application
 
 # inherit interface Application from base.py
 
