@@ -10,14 +10,13 @@ import pandas as pd
 from pandas_datareader import data
 import matplotlib.pyplot as plt
 import h5py
-
+from dual_moving_strategy import TradingDualMA # import our trading stratgy
 
 # we import the demo of trading system
 sys.path.insert(0,'/Users/zhangkexin/Desktop/learning-algo/learning-trading-strategies/s_trading_system'
 ) # we insert the folder we need at the top
 
 from liquidity_provider import LiquidityProvider
-from trading_strategy import TradingStrategy
 from order_manager import OrderManager
 from market_simulator import MarketSimulator
 from order_book import OrderBook
@@ -44,7 +43,7 @@ class EventBasedBackTester:
     
         self.lp = LiquidityProvider(self.lp_2_gateway)
         self.ob = OrderBook(self.lp_2_gateway,self.ob_2_ts)
-        self.ts = TradingStrategy(self.ob_2_ts, self.ts_2_om,self.om_2_ts)
+        self.ts = TradingDualMA(self.ob_2_ts,self.ts_2_om,self.om_2_ts)
         self.ms = MarketSimulator(self.om_2_gw,self.gw_2_om)
         self.om = OrderManager(self.ts_2_om,self.om_2_ts,self.om_2_gw,self.gw_2_om)\
     
@@ -82,7 +81,8 @@ class EventBasedBackTester:
             call_if_not_empty(self.lp_2_gateway,self.ob.handle_order_from_gateway) # order book
             call_if_not_empty(self.ob_2_ts,self.ts.handle_input_from_ob) # trading strategy
             call_if_not_empty(self.ts_2_om,self.om.handle_input_from_ts) # order manager
-            call_if_not_empty(self.om_2_gw,self.ms.handle_input_from_gw) # market simulater
+            call_if_not_empty(self.om_2_gw,self.ms.handle_order_from_om) # market simulater
+            self.ms.fill_all_orders(10) # try change it from 100 to 10
             call_if_not_empty(self.gw_2_om,self.om.handle_input_from_market) # come back of order manager
             call_if_not_empty(self.om_2_ts,self.ts.handle_response_from_om) # trading strategy handles response from market
 
@@ -104,7 +104,20 @@ for i in zip(amzn_data.index,amzn_data['Adj Close']):
     date = i[0]
     price = i[1]
     price_info = {'date':date,'price':price}
-    backtester.process_data(price_info)
+    backtester.process_data(price_info['price'])
     backtester.process_events() # clean deleted orders
     # we process_data
+
+# we plot the data
+plt.figure(figsize = (12,8))
+plt.plot(backtester.ts.list_total,label = 'total')
+plt.show()
+plt.plot(backtester.ts.list_cash, label = 'Cash')
+plt.show()
+
+# it is quite interesting to see 
+# if only 10% orders are filled
+# we will earn a lot
+# but if all the orders are filled
+# we will lose.
     

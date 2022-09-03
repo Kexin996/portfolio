@@ -29,8 +29,8 @@ class TradingStrategy:
             self.hand_book_event(book_event) # book_event will be none for unit test
         else:
             if len(self.ob_2_ts) > 0: # we indeed have inputs from the gateway
-                be = self.handle_book_event(self.ob_2_ts.popleft()) # popleft: we receive the earliest event
-                self.handle_book_event(be)
+                self.handle_book_event(self.ob_2_ts.popleft()) # popleft: we receive the earliest event
+                
     
     #  we define a function to handle the book event
     def handle_book_event(self,book_event):
@@ -108,7 +108,7 @@ class TradingStrategy:
             # if the order doesn't need to be sent
             # that is, it is an order we receive from market
             # we check for the market order status
-            if order['status'] == 'rejected':
+            if order['status'] == 'rejected' or order['status'] == 'cancelled':
                 orders_to_be_removed.append(index)
             
             if order['status'] == 'filled':
@@ -125,7 +125,7 @@ class TradingStrategy:
         for index in sorted(orders_to_be_removed,reverse = True):
             # we need to use reverse order, since
             # we don't want deletion in the beginning to influence other orders'index
-            del(self.orders[index]) # question: do we need to reverse the sort order?
+            del(self.orders[index]) 
         
     # we also need to define functions to deal with feedback from market
     def handle_response_from_om(self):

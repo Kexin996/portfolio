@@ -3,7 +3,7 @@
 """
 Implementation of a market simulator 
 """
-
+import random
 class MarketSimulator:
     def __init__(self,om_2_gw = None, gw_2_om = None): # we have two channels
         self.orders= [] # note, we have no id for market simulator
@@ -19,7 +19,7 @@ class MarketSimulator:
         return None,None
     
     # define a function to handle order from order manager
-    def handle_order_from_om(self):
+    def handle_order_from_om(self,ratio = 100):
         if self.om_2_gw is None: # unit testing
             print('simulation mode')
         else:
@@ -35,6 +35,7 @@ class MarketSimulator:
             if order['action'] == 'new': # new order, we accept it
                 order['status'] = 'accepted'
                 self.orders.append(order)
+  
                 # we attach a copy the gateway
                 if self.gw_2_om is not None:
                     self.gw_2_om.append(order.copy())
@@ -79,11 +80,16 @@ class MarketSimulator:
     
     # we define a function to fill all the orders
     # because the market simulator is just simulating the real market situation
-    def fill_all_orders(self):
+    def fill_all_orders(self,ratio = 100): #ratio: fill ratio rate
+        
         orders_removed = []
         for index,order in enumerate(self.orders):
-            order['status'] = 'filled'
-            # we put it on the gateway
+
+            if random.randrange(100) <= ratio: # we filled the order
+                order['status'] = 'filled'
+                    # we put it on the gateway
+            else:
+                order['status'] = 'cancelled'
             orders_removed.append(index)
             if self.gw_2_om is not None:
                 self.gw_2_om.append(order.copy())

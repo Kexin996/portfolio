@@ -81,9 +81,11 @@ class TestTradingSimulation(unittest.TestCase):
         self.om.handle_input_from_ts()
         self.assertEqual(len(self.ts_2_om),0)
         self.assertEqual(len(self.om_2_gw),2)
+
         
         # we check for our market simulator
         self.ms.handle_order_from_om()
+  
         self.assertEqual(len(self.gw_2_om),1)
         self.ms.handle_order_from_om()
         self.assertEqual(len(self.gw_2_om),2)
@@ -99,7 +101,7 @@ class TestTradingSimulation(unittest.TestCase):
         
         # zero value PnLs, since no order has been filled
         # now we fill all orders in market simulator
-        self.ms.fill_all_orders()
+        self.ms.fill_all_orders(100)
         self.assertEqual(len(self.gw_2_om),2)
         
         # we check how order manager handle the orders back from market
