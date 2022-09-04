@@ -1,2 +1,2 @@
-# learning-trading-strategies
+# portfolio
 Just like its name.
