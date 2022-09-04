@@ -5,7 +5,7 @@ Implementation of a dual moving average trading strategy used in a trading syste
 """
 from collections import deque # we use deque for speed
 
-# note: our strategy is only based on the dual moving average of our bid price.
+
 def average(nums): # define a function for calculating the average of a list
     return sum(nums) / len(nums)
 
@@ -112,9 +112,8 @@ class TradingDualMA:
     def create_orders(self,book_event,quantity,side):
         # we increase our order ids, as we create new order
         self.order_id += 1
-        # we create a sell order first
-        # although the two orders actually have to be sent at the same time
-
+        # we create a order
+        # in this simple engine, we just suppose that the price we are traded at is the bid_price
         ord = {
             'id': self.order_id,
             'price': book_event['bid_price'],

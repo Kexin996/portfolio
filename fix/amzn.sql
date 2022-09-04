@@ -1,5 +1,5 @@
 # create an amazon sql table
-CREATE TABLE test.AMZN
+CREATE TABLE "amzn"
 (
 	dt timestamp without time zone NOT NULL,
 	high numeric NOT NULL,
@@ -7,6 +7,6 @@ CREATE TABLE test.AMZN
 	open numeric NOT NULL,
 	close numeric NOT NULL,
 	volume numeric NOT NULL,
-	adj close numeric NOT NULL,
-	PRIMARY KEY (dt) # primary key: uniquely identify each row in a table
+	adj_close numeric NOT NULL,
+	PRIMARY KEY (dt) 
 );

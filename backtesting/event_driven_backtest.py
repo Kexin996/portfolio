@@ -53,6 +53,8 @@ class EventBasedBackTester:
     def process_data(self,price):
         # we set the amount of stocks to be 1000
         # for simplicity, we set the bid,ask orders to have the same price
+        # also, we need to have signals to trade
+        # so we create two orders
         order_bid = {
             'id':1,
             'price':price,
