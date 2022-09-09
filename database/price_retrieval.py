@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Getting historical data about price for S&P 500 symbols from AlphaVantage 
+Getting historical data about price for S&P 500 symbols from AlphaVantage  
 """
 from datetime import datetime as dt
 import json
