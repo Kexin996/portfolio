@@ -23,6 +23,7 @@ except:
     data2.to_pickle('msft.pkl')
 
 # we visualize our data
+
 plt.plot(data1['Adj Close'],label = 'adbe')
 plt.plot(data2['Adj Close'],label = 'msft')
 plt.legend()
@@ -42,6 +43,7 @@ import statsmodels.api as sm
 model = sm.OLS(df.msft,df.adbe)
 res = model.fit()
 print(res.params)
+print()
 beta = res.params[0]
 
 # from the parameters, we can see that the beta is 0.462263
@@ -50,11 +52,13 @@ df['residuals'] = df['msft'] - beta * df['adbe']
 # we plot our residuals
 plt.plot(df['residuals'])
 plt.show()
-'''
+
 # now we use adfuller to check its stationarity
 import statsmodels.tsa.stattools as ts
 # we use adfuller to check it by looking at the results from pprint
 import pprint 
-pprint.pprint(ts.adfuller(df['residuals']))'''
+pprint.pprint(ts.adfuller(df['residuals']))
+# from our adfuller test, the new series is indeed stationary
+
 
 
