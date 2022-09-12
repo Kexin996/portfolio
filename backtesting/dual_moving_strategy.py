@@ -85,9 +85,9 @@ class TradingDualMA:
             # enter a short position 
             # the system doesn't not support short selling now
             # as it will be difficult to update the cash acmount
-            self.create_orders(book_event,book_event['bid_quantity'],'ask')
-            self.paper_position -= book_event['bid_quantity']
-            self.paper_cash += book_event['bid_quantity'] * book_event['bid_price']
+            self.create_orders(book_event,book_event['ask_quantity'],'ask')
+            self.paper_position -= book_event['ask_quantity']
+            self.paper_cash += book_event['ask_quantity'] * book_event['ask_price']
         # for other values, we don't act, we hold
         
         # calculate the value of our current paper holdings with respect to current market price

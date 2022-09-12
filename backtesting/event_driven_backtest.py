@@ -13,7 +13,7 @@ import h5py
 from dual_moving_strategy import TradingDualMA # import our trading stratgy
 
 # we import the demo of trading system
-sys.path.insert(0,'/Users/zhangkexin/Desktop/learning-algo/learning-trading-strategies/s_trading_system'
+sys.path.insert(0,'/Users/zhangkexin/Desktop/portfolio/s_trading_system'
 ) # we insert the folder we need at the top
 
 from liquidity_provider import LiquidityProvider
@@ -71,11 +71,13 @@ class EventBasedBackTester:
         self.lp_2_gateway.append(order_ask) # we begin with ask, since we don't care about short selling
         self.lp_2_gateway.append(order_bid)
         self.process_events() # check the events
-        # the orders are cancelled
+        # we need to delete the orders that are not filled
+        # e.g. 10% orders are filled, and we need to delete the rest of the 90%
         order_ask['action'] = 'delete'
         order_bid['action'] = 'delete'
-        self.lp_2_gateway.append(order_ask) # add them back to delete the orders in order book
-        self.lp_2_gateway.append(order_bid)
+        self.lp_2_gateway.append(order_ask) 
+        self.lp_2_gateway.append(order_bid) #
+        
     
     # define a function to deal with the new events
     def process_events(self):
